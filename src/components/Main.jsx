@@ -3,6 +3,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
+// import { ToastContainer, toast } from "react-toastify";
 export default function Main() {
   const removeitem = (name) => {
     const finalproducts = products.filter((i) => i.productName !== name);
@@ -19,13 +20,7 @@ export default function Main() {
       qty: 20,
       price: 20,
     },
-    {
-      productName: "APPLE",
-      produvtCode: "APL9809",
-      sellingSenario: "genaral",
-      qty: 20,
-      price: 40,
-    },
+
     {
       productName: "BANANA",
       produvtCode: "BAN8798",
@@ -49,16 +44,6 @@ export default function Main() {
   today = mm + "/" + dd + "/" + yyyy;
 
   const [salesData, setSalesData] = useState({
-    // "invoiceNo": 87362784,
-    // "InvoiceDate": "12/43/22",
-    // "customer": "c jashcjh",
-    // "deliveryType": "jasgdioquyegf",
-    // "productCode": "jh98374",
-    // "paymentMode": "sdhvbcje",
-    // "subtotal": 3475,
-    // "cashamount": 98495,
-    // "checqueDetails": "fewfger"
-
     invoiceNo: invoice,
     InvoiceDate: today,
     customer: "",
@@ -82,13 +67,25 @@ export default function Main() {
   };
 
   const submitsales = () => {
-    console.log(salesData);
-    axios.post("http://localhost:3200/sales", salesData).then((res) => {
-      console.log(res.data);
-    });
+    // toast.success("iam working");
+    try {
+      console.log(salesData);
+      axios.post("http://localhost:3200/sales", salesData).then((res) => {
+        if (res.status === 200) {
+          // toast("sales data Saved Successfully ");
+          alert("sales added succeesully");
+        } else {
+        }
+        // toast("some error accured");
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <>
+      {" "}
+      {/* <ToastContainer /> */}
       <div className="nav">
         <MenuIcon style={{ fontSize: "3.5rem", padding: "10px" }} />
         <AccountCircleIcon style={{ fontSize: "3.5rem", padding: "10px" }} />
@@ -264,7 +261,7 @@ export default function Main() {
                       type="text"
                       class="form-control ml-auto"
                       aria-label="First name"
-                      defaultValue={1000}
+                      defaultValue={salesData.subtotal}
                       readonly="readonly"
                       style={{
                         width: "auto",
